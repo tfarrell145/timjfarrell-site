@@ -1,0 +1,30 @@
+---
+import Base from './Base.astro';
+const { title, description, eyebrow, date, readingTime, hue = 'homelab' } = Astro.props;
+---
+<Base title={`${title} — Tim Farrell`} description={description}>
+  <article class="wrap" style="padding: 3.25rem 0 0">
+    <header class="prose" style="max-width: 44rem">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 style="margin-top:.7rem; font-size: var(--step-3)">{title}</h1>
+      {description && <p style="font-size: var(--step-1); color: var(--ink-muted); margin-top: 1rem">{description}</p>}
+      <p style="margin-top: 1.2rem; color: var(--ink-faint); font-size: var(--step--1)">
+        {date}{readingTime && <> · {readingTime}</>}
+      </p>
+    </header>
+    <hr style="margin: 2.5rem 0" />
+    <div class="prose">
+      <slot />
+    </div>
+    <nav class="grid cols-2" style="margin-top: 4rem">
+      <a class="card" href="/homelab/" style="--card-wash: var(--hue-homelab-wash)">
+        <p class="eyebrow">Back</p>
+        <h3 style="font-size: var(--step-0); margin-top:.35rem">All homelab writing</h3>
+      </a>
+      <a class="card" href="/writing/" style="--card-wash: var(--hue-writing-wash)">
+        <p class="eyebrow" style="text-align:right">Next</p>
+        <h3 style="font-size: var(--step-0); margin-top:.35rem; text-align:right">Writing</h3>
+      </a>
+    </nav>
+  </article>
+</Base>

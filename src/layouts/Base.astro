@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+const { title, description = 'Tim Farrell — career, photography, homelab, building, writing.' } = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  ['/work/', 'Work'],
+  ['/homelab/', 'Homelab'],
+  ['/photography/', 'Photography'],
+  ['/writing/', 'Writing'],
+  ['/about/', 'About'],
+];
+const isCurrent = (href) => path === href || (href !== '/' && path.startsWith(href));
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <script is:inline>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap bar">
+      <a class="brand" href="/">Tim Farrell</a>
+      <nav class="navlinks">
+        {nav.map(([href, label]) => (
+          <a href={href} aria-current={isCurrent(href) ? 'page' : undefined}>{label}</a>
+        ))}
+      </nav>
+      <button class="themetoggle" id="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer class="sitefoot">
+    <div class="wrap">
+      <p>Tim Farrell · Vermont</p>
+      <p style="margin-top:.4rem">Built with Astro. <a href="https://github.com/tfarrell145">Source on GitHub</a>.</p>
+    </div>
+  </footer>
+
+  <script is:inline>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var cur = root.getAttribute('data-theme') || (sysDark ? 'dark' : 'light');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  </script>
+</body>
+</html>

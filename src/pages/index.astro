@@ -1,0 +1,59 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+import Callout from '../components/Callout.astro';
+---
+<Base title="Tim Farrell">
+  <section class="gridwash" style="padding: 4.5rem 0 3.5rem">
+    <div class="wrap">
+      <div class="prose" style="max-width: 42rem">
+        <p class="eyebrow">Vermont</p>
+        <h1 style="margin-top:.6rem">Tim Farrell</h1>
+        <p style="font-size: var(--step-1); color: var(--ink-muted); margin-top: 1.1rem; max-width: 34rem">
+          I run more home infrastructure than strictly necessary, take
+          photographs, and build things out of wood and weekends. This is where
+          I write it down.
+        </p>
+        <p style="margin-top: 1rem; color: var(--ink-muted); max-width: 34rem">
+          Most of it is learning in public. The homelab section is meant to be
+          useful rather than impressive: guides you could actually follow, and
+          honest accounts of what broke when I got it wrong. I am still working
+          all of this out.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-top: 1rem">
+    <div class="grid cols-2">
+      <Card href="/work/" title="Work" icon="◆" hue="career" eyebrow="Career">
+        <p>Roles, systems shipped, and what changed as a result.</p>
+      </Card>
+      <Card href="/homelab/" title="Homelab" icon="▦" hue="homelab" eyebrow="Infrastructure">
+        <p>A production-grade home network, and the incidents that taught me how it actually works.</p>
+      </Card>
+      <Card href="/photography/" title="Photography" icon="◐" hue="photo" eyebrow="Images">
+        <p>Black and white, mostly. Vermont, mostly.</p>
+      </Card>
+      <Card href="/building/" title="Building" icon="▲" hue="building" eyebrow="House">
+        <p>Things made out of wood, steel and weekends.</p>
+      </Card>
+    </div>
+
+    <div class="grid" style="margin-top: 1rem">
+      <Card title="Writing" icon="✎" hue="writing" eyebrow="Notes">
+        <p style="margin-bottom: 1rem">Longer thinking, and notes from the middle of a problem.</p>
+        <ul class="rows">
+          <li><a href="/writing/">All writing</a></li>
+        </ul>
+      </Card>
+    </div>
+
+    <div style="margin-top: 3rem; max-width: 42rem">
+      <Callout title="This site is a work in progress" icon="⚑" hue="building">
+        <p>Rebuilt from scratch in September 2026. Sections arrive as they're
+        written rather than all at once, which is the honest way to do it.</p>
+      </Callout>
+    </div>
+  </section>
+</Base>

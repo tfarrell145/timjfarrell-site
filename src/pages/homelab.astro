@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/Card.astro';
+
+const pieces = [
+  {
+    href: '/homelab/reach-your-whole-network/',
+    kind: 'Guide',
+    title: 'Reach your whole home network with Tailscale',
+    blurb: 'A subnet router takes twenty minutes and opens no new ports. The highest-value change I have made.',
+    date: 'September 2026',
+  },
+  {
+    href: '/homelab/two-trad-towers/',
+    kind: 'Incident',
+    title: 'The Two Trad Towers',
+    blurb: 'I broke my server editing one line of config, then spent five hours breaking it worse.',
+    date: 'August 2026',
+  },
+];
+---
+<Base title="Homelab — Tim Farrell">
+  <section class="wrap" style="padding: 3.5rem 0 0">
+    <div class="prose" style="max-width: 42rem">
+      <p class="eyebrow">Homelab</p>
+      <h1 style="margin-top:.6rem; font-size: var(--step-3)">Homelab</h1>
+      <p style="font-size: var(--step-1); color: var(--ink-muted); margin-top: 1rem">
+        I run a small amount of infrastructure in my house and break it regularly.
+        These are the notes.
+      </p>
+      <p style="color: var(--ink-muted)">
+        Two kinds of thing live here. <strong>Guides</strong> are for something you
+        could go and do. <strong>Incidents</strong> are what happened when I got it
+        wrong, including the hours spent on the wrong theory, because that is the
+        part nobody writes down.
+      </p>
+      <p style="color: var(--ink-muted)">
+        I am still learning all of this. Nothing here is written from authority.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap" style="margin-top: 2.5rem">
+    <div class="grid cols-2">
+      {pieces.map((p) => (
+        <Card href={p.href} title={p.title} eyebrow={`${p.kind} · ${p.date}`}
+              hue={p.kind === 'Guide' ? 'homelab' : 'building'}
+              icon={p.kind === 'Guide' ? '◈' : '⚑'}>
+          <p>{p.blurb}</p>
+        </Card>
+      ))}
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,219 @@
+---
+import Article from '../../layouts/Article.astro';
+import Callout from '../../components/Callout.astro';
+import SubnetRouterDiagram from '../../components/SubnetRouterDiagram.astro';
+---
+<Article
+  eyebrow="Homelab · Guide"
+  title="Reach your whole home network with Tailscale"
+  description="A subnet router takes about twenty minutes, opens no new ports, and is the single highest-value thing I have done to my home network."
+  date="September 2026"
+  readingTime="9 min read"
+>
+  <p>For a long time my home network had exactly one door. I had opened a port on
+  my router so I could get to my photo server from outside the house, and
+  everything else lived behind that wall, invisible. If I was away and my ad
+  blocker started misbehaving, or I wanted to check on a backup, my options were
+  to wait until I got home or to open another port and feel bad about it.</p>
+
+  <p>The thing that fixed it is a <a href="https://tailscale.com">Tailscale</a>
+  subnet router. It took about twenty minutes, it opened no new ports, and it is
+  the first thing I would tell anyone with a home server to set up. I have no
+  affiliation with them. I am just annoyed that nobody told me sooner.</p>
+
+  <SubnetRouterDiagram />
+
+  <h2>What this gets you</h2>
+
+  <p>Every device on your home network becomes reachable from your phone or laptop
+  anywhere in the world, by the ordinary address it already has. The bookmark you
+  have for your router's admin page keeps working. So does the one for your
+  server, your printer, the thing you set up eighteen months ago and forgot the
+  name of.</p>
+
+  <p>You open no additional ports. Your router keeps forwarding exactly what it
+  forwarded before. From the internet's point of view nothing about your house
+  has changed.</p>
+
+  <h2>What you need</h2>
+
+  <ul>
+    <li><strong>One machine that is always on.</strong> A home server, a
+    Raspberry Pi, a NAS. It needs to be on whenever you want remote access, which
+    is the whole job.</li>
+    <li><strong>A <a href="https://tailscale.com/pricing">Tailscale</a> account.</strong>
+    The personal plan is free and covers far more devices than a house needs.
+    Alternatives exist, including self-hosted <a href="https://headscale.net">Headscale</a>
+    if you would rather not depend on a company at all. I use Tailscale because
+    it took ten minutes and I have not thought about it since, which is the
+    highest compliment I can pay a piece of infrastructure.</li>
+    <li><strong>Admin access to that machine's shell.</strong> A few commands,
+    nothing exotic.</li>
+  </ul>
+
+  <p>You do not need to touch your router, and you should not.</p>
+
+  <h2>How Tailscale works, briefly</h2>
+
+  <p>Tailscale is a mesh VPN built on <a href="https://www.wireguard.com">WireGuard</a>.
+  It builds a small private network, a "tailnet," across all your devices. Each
+  one gets its own address on that network and they talk to each other directly
+  and encrypted, regardless of what network they happen to be sitting on. There
+  is no central server your traffic flows through, and no port forwarding
+  involved in any of it.</p>
+
+  <p>By itself that only connects devices that are running Tailscale. A
+  <a href="https://tailscale.com/kb/1019/subnets"><strong>subnet router</strong></a>
+  is one of those devices volunteering to pass traffic through to everything else
+  on its local network. Your phone asks for an address on your home network, your
+  tailnet says "the always-on box back home can handle that," and the traffic
+  goes there.</p>
+
+  <p>That single feature is the whole guide. Everything below is how to turn it on
+  without hurting yourself.</p>
+
+  <h2>The steps</h2>
+
+  <ol class="steps">
+    <li>
+      <h3>Pick the machine carefully</h3>
+      <p>This should be something that stays powered on and where you install
+      software through an official package. I nearly put mine on the router
+      itself, which would have been tidier, until I read that it needed community
+      scripts that firmware updates overwrite. Putting the thing your remote
+      access depends on somewhere it gets silently wiped is a bad trade for
+      tidiness.</p>
+    </li>
+    <li>
+      <h3>Install Tailscale there, and on your phone</h3>
+      <p><a href="https://tailscale.com/download">Download</a> it for both and
+      sign in with the same account. At this point the two devices can already
+      reach each other over the tailnet. Your home network still cannot be
+      reached, which is the gap the next steps close.</p>
+    </li>
+    <li>
+      <h3>Find your local network's address range</h3>
+      <p>Look at your router's admin page for something like
+      <code>192.168.1.0/24</code> or <code>192.168.0.0/24</code>. The number in
+      the third position is the part that varies. If your devices have addresses
+      like <code>192.168.1.x</code>, yours is <code>192.168.1.0/24</code>.</p>
+    </li>
+    <li>
+      <h3>Advertise the route</h3>
+      <p>On the always-on machine, with your own range in place of the example:</p>
+      <pre><code>sudo tailscale set --advertise-routes=192.168.1.0/24</code></pre>
+      <p>Some systems also need packet forwarding turned on. If your distribution
+      does not do this for you, the Tailscale docs give the two <code>sysctl</code>
+      lines for your platform.</p>
+    </li>
+    <li>
+      <h3>Approve it in the admin console</h3>
+      <p>Advertising a route is a request. Open the Tailscale admin console, find
+      the machine, and approve the subnet route. Nothing happens until you do,
+      and this is the step I spent fifteen minutes not doing while wondering why
+      it was broken.</p>
+    </li>
+    <li>
+      <h3>Turn it on where you want it</h3>
+      <p>On your phone and laptop, enable the setting that accepts routes from
+      other devices. On mobile it is usually on by default. On a desktop it
+      usually is not.</p>
+    </li>
+  </ol>
+
+  <h2>The parts that will bite you</h2>
+
+  <Callout title="Use tailscale set, never tailscale up" icon="⚠" hue="building">
+    <p>Both commands appear in every tutorial and they behave differently.
+    <code>up</code> re-evaluates your entire preference set and quietly resets
+    anything you did not name in that command. If you have configured anything
+    non-default, and you probably have, <code>up</code> will undo it and tell you
+    nothing.</p>
+    <p><code>set</code> changes only what you name. Use it. To undo the route
+    later, <code>sudo tailscale set --advertise-routes=</code> with nothing after
+    the equals sign. The full
+    <a href="https://tailscale.com/kb/1080/cli">CLI reference</a> is worth ten
+    minutes of your time before you start.</p>
+  </Callout>
+
+  <h3>A subnet router exposes your entire network to everyone on it</h3>
+
+  <p>This is the part I want you to sit with for a second, because it is easy to
+  set up and easy to under-think. You have not opened your network to the
+  internet. You have opened it to every device signed into your Tailscale
+  account.</p>
+
+  <p>That is completely fine while every device is yours. The moment you invite a
+  family member or a friend so they can use one service, they get the whole local
+  network unless you write an
+  <a href="https://tailscale.com/kb/1018/acls">access control rule</a> first. Write
+  the rules before you send the invitation. Tailscale's default policy is
+  "everyone can reach everything," which is the right default for one person and
+  the wrong one the moment there are two.</p>
+
+  <h3>The exit node is a separate thing, and you probably want it off</h3>
+
+  <p>Tailscale also offers an
+  <a href="https://tailscale.com/kb/1103/exit-nodes">exit node</a> feature that
+  routes all of your internet traffic through your home connection. It sounds
+  appealing on hotel wifi. Remember that your home upload
+  speed becomes your download ceiling everywhere in the world. Mine is about
+  30 Mbps up, so turning this on would cap my phone at 30 Mbps in a coffee shop
+  with gigabit fibre. I advertise it and leave it switched off.</p>
+
+  <h3>Your remote traffic will appear to come from one machine</h3>
+
+  <p>By default the subnet router rewrites the source address of forwarded
+  traffic, so everything you do remotely looks like it came from that one box. If
+  you run local DNS filtering and enjoy the per-device statistics, this will
+  flatten them. There is a fix involving a static route on your router and an
+  extra flag. I have not bothered, because I like the per-device stats less than
+  I dislike touching routing tables.</p>
+
+  <h2>How to check it actually worked</h2>
+
+  <Callout title="Do not trust the admin console alone" icon="◆" hue="homelab">
+    <p>I have been burned by this in a different context. I once had a password
+    configured on a public service, saw it listed in the admin panel, and believed
+    it for sixteen days. The setting was never applied and the site was answering
+    anyone who asked.</p>
+    <p>A panel showing a setting is a claim that it is configured. Read the
+    machine's own state, then test from outside.</p>
+  </Callout>
+
+  <p>Three checks, in order:</p>
+
+  <ol class="steps">
+    <li>
+      <h3>Read the state on the machine</h3>
+      <pre><code>tailscale status --json</code></pre>
+      <p>Look for your range under the advertised and primary routes. If it is
+      advertised but not primary, you skipped the approval step.</p>
+    </li>
+    <li>
+      <h3>Test with wifi genuinely off</h3>
+      <p>Turn wifi off on your phone. Not "disconnect from the network," off. I
+      have twice congratulated myself on a working remote setup while still on my
+      own wifi, which proves nothing at all.</p>
+    </li>
+    <li>
+      <h3>Open something that was unreachable before</h3>
+      <p>Your router's admin page is the best test, because it was definitely not
+      reachable from outside before you started. If that loads over cellular, you
+      are done.</p>
+    </li>
+  </ol>
+
+  <h2>Where this does not help</h2>
+
+  <p>Anything you want to share with people who will not install software and
+  make an account stays on the public internet. Photo albums shared with family,
+  anything with a mobile app that expects a normal address, anything a neighbour
+  might open once. Those still need a real public hostname and real
+  authentication.</p>
+
+  <p>What this fixes is the administrative half: the dashboards, the settings
+  pages, the backup consoles, the things only you ever touch. Those had no
+  business being reachable from the internet, and now they are reachable only by
+  you.</p>
+</Article>

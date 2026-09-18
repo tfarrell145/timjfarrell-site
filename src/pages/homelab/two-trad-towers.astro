@@ -1,0 +1,138 @@
+---
+import Article from '../../layouts/Article.astro';
+import Callout from '../../components/Callout.astro';
+---
+<Article
+  eyebrow="Homelab · Incident"
+  title="The Two Trad Towers"
+  description="I broke my server editing one line of config. Then I spent five hours breaking it considerably worse trying to fix it."
+  date="August 2026"
+  readingTime="7 min read"
+>
+  <p>I run a home server. It holds the family photos, the movies, the backups,
+  and a dozen small services that everyone in the house has quietly come to
+  depend on without ever thinking about it. One evening in August I changed a
+  single environment variable on one container and lost the entire machine for
+  five hours.</p>
+
+  <p>The config change was harmless. What cost me the evening was my reaction
+  to it.</p>
+
+  <Callout title="What actually happened" icon="◆" hue="homelab">
+    <p>The container edit locked up the server. I recovered it the way everyone
+    recovers a locked-up machine, by holding the power button. I did that several
+    times. One of those hard cuts landed while the operating system was writing
+    the file that defines its entire network configuration, and truncated it from
+    twenty-two lines to six.</p>
+    <p>The machine then came up with a randomly generated hardware address on
+    every single boot, so my network saw a stranger where the server used to be.</p>
+  </Callout>
+
+  <h2>What it looked like while I had no idea</h2>
+
+  <p>The web interface would load, look completely normal for about four seconds,
+  and freeze. SSH alternated between refusing the connection and timing out, with
+  no pattern I could find. Plex went offline, came back, went offline again. Ping
+  ran at fifty to eighty percent packet loss.</p>
+
+  <p>That packet loss number is the part I should have paid attention to. Total
+  loss would have meant something was simply down. Fifty to eighty percent
+  sustained, for hours, means something is actively fighting, and I had never
+  seen my network do that before.</p>
+
+  <h2>Four hours of wrong theories</h2>
+
+  <p>In order, and with rough time spent on each:</p>
+
+  <ul>
+    <li><strong>The container did it.</strong> Ninety minutes. I removed the
+    container, removed its config, and removed two others for good measure. No
+    change, which should have told me something and didn't.</li>
+    <li><strong>The disks are dying.</strong> Forty minutes of reading drive
+    health stats with real dread. The drives were fine. They have been fine the
+    whole time.</li>
+    <li><strong>The network switch is failing.</strong> An hour, including
+    physically swapping a cable and a port. I want to be clear that I did this
+    while the actual answer was visible on a screen in the next room.</li>
+    <li><strong>The router hates me.</strong> Forty minutes of rebooting network
+    equipment, which is the troubleshooting equivalent of shouting.</li>
+  </ul>
+
+  <p>The answer was in my router's client list the entire time. There were two
+  devices with my server's name on them. I had one server. I looked at that list
+  at least three times during the first hour and my eyes went straight past it,
+  because I was looking for something to be missing, and instead something had
+  been added.</p>
+
+  <h2>The actual cause</h2>
+
+  <p>The file that defines the network bridge had been cut off partway through a
+  write, which is exactly what you would expect from losing power mid-save. The
+  first six lines survived. Everything that named a physical network card was
+  gone.</p>
+
+  <p>With no physical card to inherit an identity from, the operating system did
+  the only sensible thing available to it and generated a random one. Every
+  network device has a hardware address that is supposed to be permanent and
+  unique, and most home networks quietly depend on that. Mine handed out my
+  server's fixed IP address based on it.</p>
+
+  <p>New hardware address, new device as far as the router was concerned. It
+  refused to hand over the reserved address to this stranger and offered a
+  different one instead.</p>
+
+  <h3>Then it got worse without my help</h3>
+
+  <p>The server kept insisting on the address it remembered. It would claim the
+  address, hear its own claim echo back off the network, conclude that some other
+  machine was impersonating it, defensively give the address up, delete its route
+  to the internet, and immediately ask for the address again.</p>
+
+  <p>Every five seconds. For hours. My server spent the evening in an argument
+  with itself, and every service on it failed in that same rhythm, because
+  nothing can hold a network connection open on an address that keeps evaporating.</p>
+
+  <h2>The fix</h2>
+
+  <p>I rewrote the config file by hand at the console with the network
+  definitions restored, and set a static IP address instead of relying on the
+  router's reservation. One reboot and everything came back.</p>
+
+  <p>The static address is the part worth copying. A router reservation is a
+  promise made by the router, and it is keyed to a hardware address I had assumed
+  was permanent. A static address is a decision the machine makes about itself,
+  and it survives the exact failure that caused all of this.</p>
+
+  <h2>If you run something like this, check three things</h2>
+
+  <p>None of these take more than a few minutes, and any one of them would have
+  saved me an evening.</p>
+
+  <ul>
+    <li><strong>Is your critical infrastructure on a static IP, or a router
+    reservation?</strong> Reservations are easier to set up and they fail in ways
+    that are genuinely hard to diagnose. Anything that other machines depend on
+    finding should decide its own address.</li>
+    <li><strong>Do you have a backup of your boot configuration?</strong> Mine
+    lives on a USB flash drive, which is a normal design for this kind of server
+    and also the least durable storage in the building. I now back it up on a
+    schedule. I did not before, and rewriting that file by hand was luck rather
+    than preparedness.</li>
+    <li><strong>Can you see your router's client list?</strong> Learn what normal
+    looks like on it while nothing is wrong. An unfamiliar device is a signal you
+    will only recognise if you know the baseline.</li>
+  </ul>
+
+  <Callout title="The habit I actually changed" icon="⚑" hue="building">
+    <p>I used to treat holding the power button as a free action. Every hard
+    power cycle interrupts a write somewhere. Usually it lands on something
+    unimportant and you never find out. This time it landed on the file my entire
+    network depends on.</p>
+    <p>I now wait a lot longer for a machine to recover on its own before I reach
+    for the button, and I accept that sometimes this means waiting twenty minutes
+    while feeling like an idiot.</p>
+  </Callout>
+
+  <p>Total cost: five hours, one deeply confused household, and a lasting
+  suspicion of any troubleshooting step that begins with "just reboot it."</p>
+</Article>

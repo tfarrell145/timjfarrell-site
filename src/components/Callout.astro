@@ -1,0 +1,8 @@
+---
+const { title, icon = '', hue = 'homelab' } = Astro.props;
+const style = `--callout-bg: var(--hue-${hue}-wash); --callout-edge: var(--hue-${hue}-tile);`;
+---
+<aside class="callout" style={style}>
+  {title && <p class="callout-title">{icon && <span>{icon}</span>}{title}</p>}
+  <slot />
+</aside>

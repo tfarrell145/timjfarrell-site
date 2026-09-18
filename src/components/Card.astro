@@ -1,0 +1,11 @@
+---
+const { href, title, icon, hue = 'career', eyebrow } = Astro.props;
+const style = `--card-tile: var(--hue-${hue}-tile); --card-wash: var(--hue-${hue}-wash);`;
+const Tag = href ? 'a' : 'div';
+---
+<Tag class="card" href={href} style={style}>
+  {icon && <div class="tile">{icon}</div>}
+  {eyebrow && <p class="eyebrow" style="margin-bottom:.4rem">{eyebrow}</p>}
+  <h3>{title}</h3>
+  <slot />
+</Tag>
