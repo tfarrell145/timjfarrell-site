@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Building — Tim Farrell</title><meta name="description" content="Tim Farrell — career, photography, homelab, building, writing."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"><script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/_astro/Base.Cj__H8V1.css"></head><body><header class="masthead"><div class="wrap bar"><a class="brand" href="/">Tim Farrell</a><nav class="navlinks"><a href="/work/">Work</a><a href="/homelab/">Homelab</a><a href="/photography/">Photography</a><a href="/writing/">Writing</a><a href="/about/">About</a></nav><button class="themetoggle" id="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button></div></header><main><section class="wrap" style="padding: 3.5rem 0"><div class="prose"><p class="eyebrow">building</p><h1 style="margin-top:.6rem; font-size: var(--step-3)">Building</h1><aside class="callout" style="--callout-bg: var(--hue-writing-wash); --callout-edge: var(--hue-writing-tile);"><p class="callout-title"><span>◷</span>Not written yet</p><p>This section is a stub. Content lands here in a later pass.</p></aside></div></section></main><footer class="sitefoot"><div class="wrap"><p>Tim Farrell · Vermont</p><p style="margin-top:.4rem">Built with Astro. <a href="https://github.com/tfarrell145">Source on GitHub</a>.</p></div></footer><script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var cur = root.getAttribute('data-theme') || (sysDark ? 'dark' : 'light');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  </script></body></html>

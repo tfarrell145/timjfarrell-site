@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Homelab — Tim Farrell</title><meta name="description" content="Tim Farrell — career, photography, homelab, building, writing."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"><script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script><link rel="stylesheet" href="/_astro/Base.Cj__H8V1.css"></head><body><header class="masthead"><div class="wrap bar"><a class="brand" href="/">Tim Farrell</a><nav class="navlinks"><a href="/work/">Work</a><a href="/homelab/" aria-current="page">Homelab</a><a href="/photography/">Photography</a><a href="/writing/">Writing</a><a href="/about/">About</a></nav><button class="themetoggle" id="theme-toggle" type="button" aria-label="Toggle colour theme">◐</button></div></header><main><section class="wrap" style="padding: 3.5rem 0 0"><div class="prose" style="max-width: 42rem"><p class="eyebrow">Homelab</p><h1 style="margin-top:.6rem; font-size: var(--step-3)">Homelab</h1><p style="font-size: var(--step-1); color: var(--ink-muted); margin-top: 1rem">I run a small amount of infrastructure in my house and break it regularly. These are the notes.</p><p style="color: var(--ink-muted)">Two kinds of thing live here. <strong>Guides</strong> are for something you could go and do. <strong>Incidents</strong> are what happened when I got it wrong, including the hours spent on the wrong theory, because that is the part nobody writes down.</p><p style="color: var(--ink-muted)">I am still learning all of this. Nothing here is written from authority.</p></div></section><section class="wrap" style="margin-top: 2.5rem"><div class="grid cols-2"><a class="card" href="/homelab/reach-your-whole-network/" style="--card-tile: var(--hue-homelab-tile); --card-wash: var(--hue-homelab-wash);"><div class="tile">◈</div><p class="eyebrow" style="margin-bottom:.4rem">Guide · September 2026</p><h3>Reach your whole home network with Tailscale</h3><p>A subnet router takes twenty minutes and opens no new ports. The highest-value change I have made.</p></a><a class="card" href="/homelab/two-trad-towers/" style="--card-tile: var(--hue-building-tile); --card-wash: var(--hue-building-wash);"><div class="tile">⚑</div><p class="eyebrow" style="margin-bottom:.4rem">Incident · August 2026</p><h3>The Two Trad Towers</h3><p>I broke my server editing one line of config, then spent five hours breaking it worse.</p></a></div></section></main><footer class="sitefoot"><div class="wrap"><p>Tim Farrell · Vermont</p><p style="margin-top:.4rem">Built with Astro. <a href="https://github.com/tfarrell145">Source on GitHub</a>.</p></div></footer><script>
+    document.getElementById('theme-toggle').addEventListener('click', function () {
+      var root = document.documentElement;
+      var sysDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var cur = root.getAttribute('data-theme') || (sysDark ? 'dark' : 'light');
+      var next = cur === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+  </script></body></html>
