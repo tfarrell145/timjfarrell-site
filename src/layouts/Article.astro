@@ -3,7 +3,7 @@ import Base from './Base.astro';
 const { title, description, eyebrow, date, readingTime, hue = 'homelab' } = Astro.props;
 ---
 <Base title={`${title} — Tim Farrell`} description={description}>
-  <article class="wrap" style="padding: 3.25rem 0 0">
+  <article class="wrap" style="padding-block: 3.25rem 0">
     <header class="prose" style="max-width: 44rem">
       <p class="eyebrow">{eyebrow}</p>
       <h1 style="margin-top:.7rem; font-size: var(--step-3)">{title}</h1>
