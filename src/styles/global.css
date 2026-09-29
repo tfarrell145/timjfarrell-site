@@ -126,8 +126,8 @@ a.card:hover { border-color: var(--rule-strong); transform: translateY(-2px); }
 .navlinks { display: flex; gap: 1.1rem; align-items: center; }
 .navlinks a { color: var(--ink-muted); text-decoration: none; font-size: var(--step--1); font-weight: 500; }
 .navlinks a:hover, .navlinks a[aria-current='page'] { color: var(--ink-strong); }
-/* Phone: brand and toggle hold the first row, the nav drops to its own row.
-   It scrolls sideways rather than clipping if five labels still overflow. */
+/* Phone: brand and toggle hold the first row, the nav drops to its own row
+   and wraps, so no label is hidden off the edge. */
 @media (max-width: 34rem) {
   .masthead .bar {
     flex-wrap: wrap;
@@ -140,13 +140,9 @@ a.card:hover { border-color: var(--rule-strong); transform: translateY(-2px); }
   .navlinks {
     order: 2;
     flex-basis: 100%;
-    gap: .9rem;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    flex-wrap: wrap;
+    gap: .35rem .9rem;
   }
-  .navlinks::-webkit-scrollbar { display: none; }
   .navlinks a { flex: 0 0 auto; }
 }
 

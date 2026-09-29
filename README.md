@@ -20,6 +20,7 @@ npm run build    # -> dist/
 
 ## Deploying
 
-Built output goes to the `gh-pages` branch and is served by GitHub Pages at
-the domain in `public/CNAME`. `public/.nojekyll` is required, otherwise Pages
+Every push to `main` runs `.github/workflows/deploy.yml`, which builds and
+publishes to GitHub Pages at the domain in `public/CNAME`. There is no local
+deploy step. `public/.nojekyll` is required, otherwise Pages
 runs Jekyll and drops the `_astro/` directory.
