@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Lightbox from '../components/Lightbox.astro';
 const { title, description = 'Tim Farrell — career, photography, homelab, building, writing.' } = Astro.props;
 const path = Astro.url.pathname;
 const nav = [
@@ -53,6 +54,8 @@ const isCurrent = (href) => path === href || (href !== '/' && path.startsWith(hr
       <p style="margin-top:.4rem">Built with Astro. <a href="https://github.com/tfarrell145">Source on GitHub</a>.</p>
     </div>
   </footer>
+
+  <Lightbox />
 
   <script is:inline>
     document.getElementById('theme-toggle').addEventListener('click', function () {
