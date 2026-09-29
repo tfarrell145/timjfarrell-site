@@ -185,6 +185,14 @@ figcaption {
   margin-top: .85rem; color: var(--ink-muted);
   font-size: var(--step--1); line-height: 1.5;
 }
+figure img { border: 1px solid var(--card-border); border-radius: 8px; }
+.shots { display: grid; grid-template-columns: repeat(5, 1fr); gap: .6rem; }
+@media (max-width: 34rem) { .shots { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---- Tables ---- */
+.prose table { border-collapse: collapse; margin: 1.5rem 0; font-size: var(--step--1); }
+.prose th, .prose td { text-align: left; padding: .45rem 1.2rem .45rem 0; border-bottom: 1px solid var(--rule); }
+.prose th { color: var(--ink-strong); font-weight: 600; }
 
 /* ---- Numbered steps ---- */
 .steps { list-style: none; padding: 0; counter-reset: step; }

@@ -2,7 +2,20 @@
 import Base from '../layouts/Base.astro';
 import Card from '../components/Card.astro';
 
+const style = {
+  'Guide': { hue: 'homelab', icon: '◈' },
+  'Build log': { hue: 'writing', icon: '✎' },
+  'Incident': { hue: 'building', icon: '⚑' },
+};
+
 const pieces = [
+  {
+    href: '/homelab/weather-apps-suck/',
+    kind: 'Build log',
+    title: 'Weather apps suck, so I built my own',
+    blurb: 'A weather page for my own hill, calibrated against my station. The bugs were the best part.',
+    date: 'September 2026',
+  },
   {
     href: '/homelab/reach-your-whole-network/',
     kind: 'Guide',
@@ -29,8 +42,9 @@ const pieces = [
         These are the notes.
       </p>
       <p style="color: var(--ink-muted)">
-        Two kinds of thing live here. <strong>Guides</strong> are for something you
-        could go and do. <strong>Incidents</strong> are what happened when I got it
+        Three kinds of thing live here. <strong>Guides</strong> are for something you
+        could go and do. <strong>Build logs</strong> are how something I use every day
+        got made. <strong>Incidents</strong> are what happened when I got it
         wrong, including the hours spent on the wrong theory, because that is the
         part nobody writes down.
       </p>
@@ -47,8 +61,7 @@ const pieces = [
     <div class="grid cols-2">
       {pieces.map((p) => (
         <Card href={p.href} title={p.title} eyebrow={`${p.kind} · ${p.date}`}
-              hue={p.kind === 'Guide' ? 'homelab' : 'building'}
-              icon={p.kind === 'Guide' ? '◈' : '⚑'}>
+              hue={style[p.kind].hue} icon={style[p.kind].icon}>
           <p>{p.blurb}</p>
         </Card>
       ))}
