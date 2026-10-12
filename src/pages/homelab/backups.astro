@@ -1,0 +1,120 @@
+---
+import Article from '../../layouts/Article.astro';
+import BackupFlowDiagram from '../../components/BackupFlowDiagram.astro';
+---
+<Article
+  eyebrow="Homelab · Guide"
+  title="A backup plan that survives the thing that kills backups"
+  description="My server's only backup was on the same drives as the data it protected. This is the nightly setup that replaced it, and the part that is still missing."
+  date="October 2026"
+  readingTime="7 min read"
+>
+  <p>In September I went looking for my server's backup and found it on the same pair
+  of drives as the data it was protecting.</p>
+
+  <p>Every service on the server keeps its settings and databases in one folder of
+  app data: the photo library's database, the media server's watch history, the DNS
+  filter's lists. That folder lives on a mirrored pair of NVMe drives. The only
+  backup of it was a 21 GB folder from July 30, sitting on that same pair, left behind
+  when I renamed some shares. The backup job had been switched off since the same
+  day. One failure of that pool would have taken the data and the backup
+  together.</p>
+
+  <p>This is the fix: a nightly copy to a second small box, in a format the server can
+  add to and never delete.</p>
+
+  <BackupFlowDiagram />
+
+  <h2>What this gets you</h2>
+
+  <ul>
+    <li>A nightly snapshot of every app's data and the server's boot drive, on a
+    different machine.</li>
+    <li>History. Any night's version can come back, one file or the whole lot.</li>
+    <li>Protection from the server itself. The server can write new backups and
+    cannot delete old ones, so ransomware or a bad script on the server cannot reach
+    back and wipe them.</li>
+    <li>Restores from a web page, by clicking through folders.</li>
+  </ul>
+
+  <h2>What you need</h2>
+
+  <ul>
+    <li><strong>A second always-on box.</strong> Mine is a retired Datto Alto, a
+    palm-sized backup appliance that businesses used to rent, with a 480 GB SSD and
+    Debian. It draws about 5 W. Any spare mini PC or old laptop works.</li>
+    <li><strong><a href="https://restic.net">restic</a></strong>, which does the
+    backing up. It encrypts and deduplicates, so thirty nights of a 20 GB folder take
+    far less than 600 GB.</li>
+    <li><strong><a href="https://github.com/restic/rest-server">rest-server</a></strong>
+    on the second box, in append-only mode.</li>
+    <li><strong><a href="https://github.com/garethgeorge/backrest">Backrest</a></strong>
+    on the server, a web interface for restic that runs the schedules and does the
+    restores.</li>
+    <li>On Unraid, the <strong>Appdata Backup</strong> plugin.</li>
+  </ul>
+
+  <h2>How it fits together</h2>
+
+  <ol class="steps">
+    <li>
+      <h3>03:00, on the server</h3>
+      <p>The Appdata Backup plugin stops each container in turn, writes its folder to
+      a tar archive, and starts it again. A container that is stopped cannot be
+      halfway through writing its database, so every archive is consistent.</p>
+    </li>
+    <li>
+      <h3>04:00 and 04:30, on the server</h3>
+      <p>Backrest sends the boot drive and the night's archives to the second box over
+      the home network.</p>
+    </li>
+    <li>
+      <h3>On the second box</h3>
+      <p>rest-server stores them in append-only mode: new snapshots in, nothing
+      out.</p>
+    </li>
+    <li>
+      <h3>Sunday 05:00, on the second box</h3>
+      <p>A weekly job there forgets old snapshots, prunes the space they used, and
+      checks the repository. The server's credentials cannot do this, which is the
+      point.</p>
+    </li>
+  </ol>
+
+  <p>The archives are left uncompressed on purpose. restic deduplicates, and it finds
+  far more repeated data in a plain tar than in a compressed one. The first night's
+  repository was 17.8 GB. The second night added about 400 MB.</p>
+
+  <p>I asked about Syncthing along the way, because a live mirror sounded simpler. A
+  mirror copies deletions and ransomware-encrypted files as faithfully as everything
+  else, so it protects against a dead disk and nothing more.</p>
+
+  <h2>The parts that bit me</h2>
+
+  <ul>
+    <li><strong>The photo database was silently skipped.</strong> Its folder sits just
+    outside the path the plugin backs up, so the first night's run finished green
+    without it. I only caught it by opening the archives and checking what was
+    inside. It is in now, along with the app's compose file and settings.</li>
+    <li><strong>Backrest's machine name changed with every update.</strong> restic
+    labels each snapshot with the host it came from, and inside a container that is
+    the container's ID, which is new after every update. Cleanup grouped by host would
+    have treated each update as a different machine and kept everything forever. The
+    fix was a fixed hostname for the container and grouping the weekly cleanup by
+    tag.</li>
+    <li><strong>Some containers borrow another container's network.</strong> Stopping
+    the lender for the backup cuts the others off, so that one is marked "don't
+    stop".</li>
+    <li><strong>A backup that has never been restored is a guess.</strong> I restored
+    a file through Backrest's web page and compared it byte for byte, then restored
+    again directly on the second box with the server out of the picture.</li>
+  </ul>
+
+  <h2>Where it falls short</h2>
+
+  <p>Nothing leaves the house yet. A fire, a flood or a theft takes the server and the
+  second box together. The next step is an encrypted copy of the restic repository to
+  <a href="https://www.backblaze.com/cloud-storage">Backblaze B2</a>, which at about
+  30 GB costs a few dollars a year. Home Assistant's own backups also land on the
+  server every night but are not yet in Backrest's plan.</p>
+</Article>

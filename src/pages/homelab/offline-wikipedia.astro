@@ -1,0 +1,132 @@
+---
+import Article from '../../layouts/Article.astro';
+import Gallery from '../../components/Gallery.astro';
+const img = (f: string) => `/homelab/kiwix/${f}.jpg`;
+---
+<Article
+  eyebrow="Homelab · Guide"
+  title="Offline Wikipedia on the home server"
+  description="All of English Wikipedia, with pictures, is 119 GB. Put it on a server at home and it keeps working when the internet does not."
+  date="October 2026"
+  readingTime="5 min read"
+>
+  <p>All of English Wikipedia, pictures included, is 119 GB. That fits on the server
+  in my basement with room to spare, and once it is there it keeps working when the
+  internet does not. I added it in September as part of a plan for long outages,
+  alongside the generator and a shelf of paper manuals.</p>
+
+  <figure>
+    <img src={img('01-library')} alt="The Kiwix library page listing the books on the server"
+         width="1200" height="900" loading="lazy" />
+    <figcaption>The library page every device in the house can open: 22 books, no
+    internet needed.</figcaption>
+  </figure>
+
+  <h2>What this gets you</h2>
+
+  <p>A website on your home network with Wikipedia, a dictionary, iFixit's repair
+  guides, a medical encyclopedia, travel guides, open textbooks and some science
+  video. Any phone or laptop in the house opens it in a browser, with no internet
+  connection at all.</p>
+
+  <h2>What you need</h2>
+
+  <ul>
+    <li><strong>An always-on machine with Docker.</strong> A home server, a NAS, a
+    spare mini PC. The server software is light; the disk is the cost.</li>
+    <li><strong>Disk space.</strong> My set is about 207 GB. Updates need room for
+    two copies of the biggest book while the new one downloads, so plan on roughly
+    240 GB free if Wikipedia is on your list.</li>
+    <li><strong><a href="https://kiwix.org">Kiwix</a>.</strong> Kiwix packages a whole
+    website as one <code>.zim</code> file, and <code>kiwix-serve</code> turns a folder
+    of them into a website.</li>
+  </ul>
+
+  <h2>The steps</h2>
+
+  <ol class="steps">
+    <li>
+      <h3>Pick the books</h3>
+      <p>Browse what exists in the <a href="https://library.kiwix.org">Kiwix
+      library</a>. I skipped Khan Academy (168 GB, last built in 2023) and Project
+      Gutenberg (206 GB). Mine:</p>
+      <table>
+        <thead><tr><th>Book</th><th>Size</th></tr></thead>
+        <tbody>
+          <tr><td>Wikipedia (full, with images)</td><td>119 GB</td></tr>
+          <tr><td>CrashCourse (video)</td><td>21.5 GB</td></tr>
+          <tr><td>TED science (video)</td><td>14.8 GB</td></tr>
+          <tr><td>LibreTexts: nine subjects</td><td>about 12 GB</td></tr>
+          <tr><td>Math and Physics Stack Exchange</td><td>8.6 GB</td></tr>
+          <tr><td>Wiktionary (no pictures)</td><td>8.5 GB</td></tr>
+          <tr><td>Wikisource</td><td>8.0 GB</td></tr>
+          <tr><td>Wikibooks</td><td>5.8 GB</td></tr>
+          <tr><td>iFixit</td><td>3.3 GB</td></tr>
+          <tr><td>Wikiversity</td><td>2.3 GB</td></tr>
+          <tr><td>MDWiki (medical)</td><td>2.1 GB</td></tr>
+          <tr><td>Wikivoyage</td><td>1.0 GB</td></tr>
+          <tr><td>PhET simulations</td><td>0.1 GB</td></tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h3>Download and verify</h3>
+      <p>Every file on download.kiwix.org has a <code>.sha256</code> beside it. Check
+      it. A 119 GB download that is quietly corrupt fails months later, at the moment
+      you need it.</p>
+    </li>
+    <li>
+      <h3>Run the server</h3>
+      <p>Use the official image, <code>ghcr.io/kiwix/kiwix-serve</code>, with your
+      books folder mounted read-only and <code>'*.zim'</code> as the argument. Keep
+      the quotes (see below).</p>
+    </li>
+    <li>
+      <h3>Keep it current</h3>
+      <p>I run a small script on the 2nd of every month. For each book it finds the
+      newest file, skips it if I already have it, downloads to a <code>.part</code>
+      file that can resume, checks the SHA-256, swaps it into place, deletes the
+      older version, and restarts the container once at the end if anything changed.
+      It also skips a book if the disk is too full and refuses to run twice at
+      once.</p>
+    </li>
+  </ol>
+
+  <Gallery
+    items={[
+      { src: img('02-library-phone'), alt: 'The library on a phone', label: 'Library' },
+      { src: img('03-wikipedia'), alt: 'A Wikipedia article served offline', label: 'Wikipedia' },
+      { src: img('04-ifixit'), alt: 'iFixit repair guides', label: 'iFixit' },
+      { src: img('05-mdwiki'), alt: 'The offline medical encyclopedia', label: 'MDWiki' },
+      { src: img('06-travel'), alt: 'Wikivoyage travel guide', label: 'Wikivoyage' },
+    ]}
+    cols={5}
+    caption="The same books on a phone, over home wifi."
+  />
+
+  <h2>The parts that will bite you</h2>
+
+  <ul>
+    <li><strong>Quote the glob.</strong> Pass <code>'*.zim'</code>, quotes included,
+    so the glob is expanded inside the container, where the books are, instead of by
+    the host's shell.</li>
+    <li><strong>The full Wikipedia is published about every six months.</strong>
+    Most months the updater finds nothing new for it, and that is normal.</li>
+    <li><strong>The container name matters.</strong> My updater restarts the
+    container by name, and the install template's default name is different. Under
+    that name the restart is skipped, and the server keeps serving files the updater
+    has already deleted. I renamed the container to match.</li>
+    <li><strong>On Unraid, the flash drive cannot run scripts directly.</strong> It
+    is FAT32 with no execute bit, so call the script with <code>bash</code>.
+    Scheduled jobs go in a <code>.cron</code> file under the dynamix plugin folder,
+    with no user field; a user field makes the job fail without an error.</li>
+    <li><strong>There is no login.</strong> Keep it on your home network. Anyone who
+    can reach it can read it, which is fine for Wikipedia and a reason to keep it
+    off the internet.</li>
+  </ul>
+
+  <h2>How to check it worked</h2>
+
+  <p>Open it on your phone over home wifi and search for something. Then unplug the
+  modem and search again.</p>
+</Article>
