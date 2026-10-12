@@ -1,0 +1,184 @@
+---
+import Article from '../../layouts/Article.astro';
+import Gallery from '../../components/Gallery.astro';
+const img = (f: string) => `/homelab/weather-2/${f}.jpg`;
+---
+<Article
+  eyebrow="Homelab · Build log"
+  title="TradWeather, round two: mountain stations and a wind map"
+  description="Three days that added a tab for the mountains, seven stations I do not own, a map with moving wind, and a layout that behaves like an app."
+  date="October 2026"
+  readingTime="9 min read"
+>
+  <p>The <a href="/homelab/weather-apps-suck/">first version</a> of this page
+  answered one question: what is the weather doing on my hill. Then ski season
+  got closer, and the question changed. The
+  Green Mountains are close enough that one storm can put a foot on the summits and
+  rain in my yard, and I wanted both on the same screen.</p>
+
+  <p>Three days in October added a fourth tab for the mountains, seven live
+  stations that are not mine, a real map with a moving wind layer, and a new layout.
+  Most of it started from Porter Haney's
+  <a href="https://www.porterhaney.com/upsouthskiforecast/">Up South Ski Forecast</a>.
+  Porter's dashboard was also the starting point for the first version, so this is
+  the second time I have rebuilt something of his for my own hill.</p>
+
+  <p>One note on the pictures. They come from a staging copy where my station is
+  renamed "Home" and kept off the maps. Everything else is the live page.</p>
+
+  <h2>A tab for the mountain</h2>
+
+  <p>The Mountain tab has three parts: Snow, Conditions and Storm Types. Snow leads with a sentence ("Not ski season yet. Heavy rain coming Mon
+  7 pm."), then tiles for the summit temperature, the freezing level, the next three
+  days, nights cold enough for snowmaking, the odds of 1, 6 and 12 inches, and ridge
+  gusts.</p>
+
+  <p>The snow numbers come from Porter's storm recipe, re-run on
+  <a href="https://open-meteo.com">Open-Meteo</a> at each spot's own height:</p>
+
+  <ul>
+    <li><strong>How much falls.</strong> The average of five models (ECMWF, GFS with
+    HRRR, ICON, the Canadian, and NBM). In upslope hours, when the wind about 5,000
+    feet up blows from the west or northwest at 20 mph or more, the recipe trusts
+    GFS alone.</li>
+    <li><strong>What falls.</strong> Rain or snow comes from ECMWF's surface
+    temperature, uncorrected. Sleet and freezing rain come from a warm layer aloft,
+    checked only at the levels above each spot.</li>
+    <li><strong>How fluffy.</strong> Ten inches of snow per inch of water, raised
+    as high as 18 when the cloud sits between −12 and −18 °C, where the big
+    star-shaped flakes grow.</li>
+    <li><strong>What kind of storm.</strong> The wind direction aloft plus where the
+    surface low sits, found as the lowest ECMWF pressure on a five-by-five grid.</li>
+  </ul>
+
+  <p>To check it, I replayed the January 25 to 26 storm from Open-Meteo's archive.
+  My version gave Mt Ellen 11.8 inches; Porter had forecast 12. The phases came out
+  in his order too: warm air first, then a coastal low (mine placed it about 480 km
+  south-southeast, his 530), then upslope behind it. That replay now doubles as the
+  sample on Storm Types, so the tab has something to show in October.</p>
+
+  <p>Conditions is a cross-section of the range from the Champlain Valley over Mt
+  Ellen to the Mad River side. Solid dots are live sensors. Hollow dots are the
+  five-model average for that hour, adjusted for height at about 3.5 °F per 1,000
+  feet, which means they cannot see a valley inversion. Below it are the two
+  resorts' own reports, the National Weather Service's mountain forecast for Mt
+  Ellen, and the webcams.</p>
+
+  <p>Two things are still open. Porter backtests his temperature blend and mine is
+  uncorrected. The summits have no public sensor, so up there it is always a model
+  estimate.</p>
+
+  <Gallery
+    items={[
+      { src: img('04-mtn-snow'), alt: 'Mountain tab, Snow: headline and tiles', label: 'Snow' },
+      { src: img('05-mtn-conditions'), alt: 'Mountain tab, Conditions: cross-section west to east', label: 'Conditions' },
+      { src: img('06-mtn-conditions-dark'), alt: 'Conditions in the dark theme', label: 'Conditions, dark' },
+      { src: img('07-mtn-guide-retro'), alt: 'Storm Types in the retro theme', label: 'Storm Types, retro' },
+    ]}
+    cols={4}
+    caption="The Mountain tab. Tap any screenshot to open it full size."
+  />
+
+  <h2>Seven stations that are not mine</h2>
+
+  <p>A cross-section needs real readings along it, and every source had to be free
+  and keyless. Most come from Ambient Weather's public map, which returns every
+  public station in a box in one call. It is undocumented (it is the same request
+  their own map page makes), so I cache it for two minutes and expect it to break
+  one day. The App Gap reading is a Vermont road-weather station that Iowa State's
+  <a href="https://mesonet.agron.iastate.edu">Environmental Mesonet</a> republishes
+  30 to 40 minutes late, so it counts as stale after 75 minutes and the rest after
+  30. Synoptic, the obvious aggregator, is free only for universities.</p>
+
+  <p>Picking a station uses the phone's own scrolling wheel: an invisible native
+  select sits over the station name. Every station's Current view is baked into the
+  page and CSS shows the chosen one, so switching costs nothing. The page grew from
+  229 KB to about 465 KB to pay for that.</p>
+
+  <h2>A map you can actually use</h2>
+
+  <p>Radar stopped being its own tab and moved onto Current. Inline, the map ignores
+  touch, because a live map in a scrolling page traps the scroll. Tap it and it goes
+  full screen, and it pushes a browser history entry so the phone's back gesture
+  closes it.</p>
+
+  <p>Full screen copies Apple Weather's controls: a close button, one layers list
+  (radar, wind flow, temperature, humidity, dew point, rain today, pressure), a
+  locate button, and a card along the bottom for the radar scrubber or the legend.
+  The station layers sit on USGS topo maps, which are public domain, with ski trails
+  from <a href="https://www.opensnowmap.org">OpenSnowMap</a> once you zoom in.</p>
+
+  <p>The basemap changed by force. CARTO started requiring an API key and drew "API
+  KEY REQUIRED" across every tile. Radar now sits on Esri's keyless gray canvas.</p>
+
+  <p>Wind flow is the newest layer. Every three hours the
+  renderer writes a small grid of Open-Meteo wind, 10 by 16 points over New York,
+  Vermont and New Hampshire for the next 25 hours, and the page animates particles
+  across it. The first version covered the map's buttons and popups. Leaflet's
+  panes all share one stacking context, so a canvas outside the map sat on top of
+  everything, and moving it into its own pane fixed that. Speed is time-based, and
+  I tuned it on the phone: 2.5 pixels per second per mph was too slow, 10 was too
+  fast, 4 felt right. Tapping the map gives the model's wind for that spot, labeled
+  "model, open terrain", because it runs about five times windier than a gauge
+  sheltered by trees (Porter measured that too).</p>
+
+  <Gallery
+    items={[
+      { src: img('08-map-radar'), alt: 'Full-screen radar with scrubber', label: 'Radar' },
+      { src: img('09-map-wind'), alt: 'Animated wind flow layer', label: 'Wind flow' },
+      { src: img('10-map-temp'), alt: 'Live station temperatures on a topo map', label: 'Stations on topo' },
+    ]}
+    caption="The map's layers, full screen."
+  />
+
+  <h2>A layout that behaves like an app</h2>
+
+  <p>I set one rule: four top-level tabs, maximum. Within that, a second layout
+  called Modern became the default on October 10. The tab bar floats at the bottom
+  and shrinks to icons as you scroll. The big header collapses into a slim bar with
+  the station and its temperature. Sub-tabs became a segmented control with a
+  sliding thumb, and you swipe between stations on Current and between sub-tabs
+  elsewhere. Any switch starts the new pane at its top. The original layout, with
+  tabs along the top, is still in the menu, which replaced the old theme
+  dropdown.</p>
+
+  <Gallery
+    items={[
+      { src: img('01-current'), alt: 'Current, Modern layout', label: 'Current' },
+      { src: img('02-current-scrolled'), alt: 'Current scrolled: slim header and icon-only tab bar', label: 'Scrolled' },
+      { src: img('03-station-waitsfield'), alt: 'Current for a valley station, one swipe over', label: 'Another station' },
+      { src: img('12-detailed'), alt: 'Detailed: wind gauge and wind rose', label: 'Detailed' },
+      { src: img('11-menu'), alt: 'Menu with station, theme, layout and open-to settings', label: 'Menu' },
+    ]}
+    caption="Modern layout, the default since October 10."
+  />
+
+  <h2>What it cost</h2>
+
+  <ul>
+    <li><strong>iOS 26 Safari reports a top safe-area inset of about 47 points</strong>
+    even though the page already starts below the status bar, so every sticky header
+    sat too low. The inset now applies only when the page runs as a home-screen app.
+    Safari also tints its top bar from fixed elements and ignores sticky ones, so a
+    3-pixel fixed strip stays at the top for that alone.</li>
+    <li><strong>Test renders share the live API key.</strong> A burst of them got
+    the live page rate-limited twice. The old page kept serving, which is the only
+    reason nobody noticed. Test renders now go a minute apart.</li>
+    <li><strong>Headless Chromium has blind spots.</strong> The version I use for
+    screenshots has a 500-pixel minimum width, blanks screenshots of scrolled pages,
+    and skips CSS transitions and map zoom animations. Measuring element positions
+    worked better than trusting pictures.</li>
+    <li><strong>A negative top margin collapses through its parent</strong>, so the
+    parent's position already includes it. That cost an 18-pixel miss in the code
+    that scrolls each sub-tab back to its top.</li>
+  </ul>
+
+  <h2>Credit</h2>
+
+  <p>The storm recipe, the storm guide and the idea of a mountain tab are Porter
+  Haney's, from <a href="https://www.porterhaney.com/upsouthskiforecast/">Up South
+  Ski Forecast</a>. Station readings come from Ambient Weather's public stations
+  and VTrans through the Iowa Environmental Mesonet. Forecasts and wind come from
+  Open-Meteo, radar from NOAA through the Iowa Environmental Mesonet, and the maps
+  from Esri, USGS and OpenSnowMap.</p>
+</Article>
