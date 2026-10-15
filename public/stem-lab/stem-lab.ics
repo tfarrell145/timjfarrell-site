@@ -1,0 +1,328 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//TradLab//STEM Lab//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:STEM Lab
+REFRESH-INTERVAL;VALUE=DURATION:PT12H
+X-PUBLISHED-TTL:PT12H
+BEGIN:VEVENT
+UID:stem-lab-levers@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261019T173000
+DTEND:20261019T174000
+SUMMARY:Lab: The Magic Fork
+DESCRIPTION:"I bet you can lift this big heavy book with ONE finger. Want
+  to see how?"\n\nGrab:\n- ruler or paint stirrer\n- thick marker or roun
+ d pencil (the pivot)\n- a heavy-ish book\n- a few toy cars or blocks\n\n
+ https://timjfarrell.com/stem-lab/levers.html
+URL:https://timjfarrell.com/stem-lab/levers.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-drop-race@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261022T173000
+DTEND:20261022T174000
+SUMMARY:Lab: Drop Race
+DESCRIPTION:"If I drop a big heavy book and a tiny little ball at the sam
+ e time\, which one wins?"\n\nGrab:\n- a hardcover book\n- a small ball\n
+ - a sheet of paper\n- a soft landing spot (rug or pillow)\n\nhttps://tim
+ jfarrell.com/stem-lab/drop-race.html
+URL:https://timjfarrell.com/stem-lab/drop-race.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-ramps@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261026T173000
+DTEND:20261026T174500
+SUMMARY:Lab: Ramp Racers
+DESCRIPTION:"Can we make a car go super far without pushing it at all?"\n
+ \nGrab:\n- a board\, baking sheet or big book (the ramp)\n- pillows or b
+ ooks to prop it\n- two or three toy cars\n- painter's tape or a sock to 
+ mark where they stop\n\nhttps://timjfarrell.com/stem-lab/ramps.html
+URL:https://timjfarrell.com/stem-lab/ramps.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-patterns@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261029T173000
+DTEND:20261029T174000
+SUMMARY:Lab: Pattern Snakes
+DESCRIPTION:"I'm going to make a snake\, and it has a secret code. Can yo
+ u crack it?"\n\nGrab:\n- two kinds of pasta\, or two colors of blocks\, 
+ LEGO or crayons\n- a string (optional\, for threading pasta)\n\nhttps://
+ timjfarrell.com/stem-lab/patterns.html
+URL:https://timjfarrell.com/stem-lab/patterns.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-sink-float@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261102T173000
+DTEND:20261102T174500
+SUMMARY:Lab: Sink or Float?
+DESCRIPTION:"Some things swim and some things sink. Let's be scientists a
+ nd guess first."\n\nGrab:\n- a big bowl or the bathtub\n- a towel\n- 6 t
+ o 10 things: apple\, grape\, coin\, cork\, spoon\, LEGO\, crayon\, toy b
+ oat\, orange (with and without peel)\n\nhttps://timjfarrell.com/stem-lab
+ /sink-float.html
+URL:https://timjfarrell.com/stem-lab/sink-float.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-balance-scale@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261105T173000
+DTEND:20261105T174500
+SUMMARY:Lab: Hanger Scale
+DESCRIPTION:"Let's build a machine that tells us which thing is heavier\,
+  no guessing allowed."\n\nGrab:\n- a coat hanger with notches or a plain
+  hanger\n- two paper or plastic cups\n- string or tape\n- a door handle 
+ or cabinet knob to hang it from\n- small things to weigh: blocks\, crayo
+ ns\, coins\, grapes\n\nhttps://timjfarrell.com/stem-lab/balance-scale.ht
+ ml
+URL:https://timjfarrell.com/stem-lab/balance-scale.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-shadows@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261109T173000
+DTEND:20261109T174000
+SUMMARY:Lab: Shadow Monsters
+DESCRIPTION:"Let's turn the lights off and make a monster that's bigger t
+ han the whole family."\n\nGrab:\n- a flashlight or phone light\n- a blan
+ k wall\n- hands\, a toy figure\, a fork\n\nhttps://timjfarrell.com/stem-
+ lab/shadows.html
+URL:https://timjfarrell.com/stem-lab/shadows.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-triangles@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261112T173000
+DTEND:20261112T174500
+SUMMARY:Lab: Strong Shapes
+DESCRIPTION:"Builders have a favorite shape that makes bridges and towers
+  super strong. Let's find out which one."\n\nGrab:\n- straws or pipe cle
+ aners\n- play-dough\, mini marshmallows or tape for corners\n- a toy to 
+ test with\n\nhttps://timjfarrell.com/stem-lab/triangles.html
+URL:https://timjfarrell.com/stem-lab/triangles.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-magnets@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261116T173000
+DTEND:20261116T174000
+SUMMARY:Lab: Magnet Hunt
+DESCRIPTION:"This magnet has a secret power. It only likes some things. L
+ et's find out which."\n\nGrab:\n- a big fridge magnet (or a magnet wand)
+ \n- a tray of things: spoon\, foil\, coin\, paper clip\, key\, LEGO\, a 
+ steel food can and an aluminum soda can\n\nhttps://timjfarrell.com/stem-
+ lab/magnets.html
+URL:https://timjfarrell.com/stem-lab/magnets.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-rubber-band-guitar@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261119T173000
+DTEND:20261119T174500
+SUMMARY:Lab: Box Guitar
+DESCRIPTION:"Let's make a guitar out of junk and find out where sound com
+ es from."\n\nGrab:\n- a tissue box or shoebox with a hole cut in the lid
+ \n- 4 rubber bands\, thick and thin\n- a pencil to lift the strings\n\nh
+ ttps://timjfarrell.com/stem-lab/rubber-band-guitar.html
+URL:https://timjfarrell.com/stem-lab/rubber-band-guitar.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-friction@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261123T173000
+DTEND:20261123T174000
+SUMMARY:Lab: Slippy and Grippy
+DESCRIPTION:"Why can you slide in socks on the floor but not on the rug?"
+ \n\nGrab:\n- the ramp from Ramp Racers\n- a toy car or a block\n- three 
+ ramp coverings: a towel\, foil or wax paper\, sandpaper or a bath mat\n\
+ nhttps://timjfarrell.com/stem-lab/friction.html
+URL:https://timjfarrell.com/stem-lab/friction.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-measuring@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261130T173000
+DTEND:20261130T174000
+SUMMARY:Lab: How Many Hands?
+DESCRIPTION:"How long is the couch? Not in inches. In YOUR hands."\n\nGra
+ b:\n- their hands and feet\n- your hands and feet\n- a toy or a LEGO bri
+ ck as another unit\n- a tape measure for the end\n\nhttps://timjfarrell.
+ com/stem-lab/measuring.html
+URL:https://timjfarrell.com/stem-lab/measuring.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-balloon-rocket@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261203T173000
+DTEND:20261203T174500
+SUMMARY:Lab: Balloon Rocket
+DESCRIPTION:"We're going to launch a rocket across the room. Fuel: air."\
+ n\nGrab:\n- a balloon\n- a long string (about 3 m)\n- a straw\n- tape\n-
+  two chairs\n\nhttps://timjfarrell.com/stem-lab/balloon-rocket.html
+URL:https://timjfarrell.com/stem-lab/balloon-rocket.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-dissolving@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261207T173000
+DTEND:20261207T174000
+SUMMARY:Lab: Where Did It Go?
+DESCRIPTION:"I can make sugar disappear. Want to see?"\n\nGrab:\n- 4 clea
+ r glasses of water\n- spoon\n- sugar\, salt\, sand or dirt\, and a littl
+ e rice or a LEGO\n\nhttps://timjfarrell.com/stem-lab/dissolving.html
+URL:https://timjfarrell.com/stem-lab/dissolving.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-pendulum@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261210T173000
+DTEND:20261210T174000
+SUMMARY:Lab: Sock Swing
+DESCRIPTION:"Let's make a swing for a toy and see if we can make it go fa
+ ster."\n\nGrab:\n- a long string\n- a sock with a small toy or a few coi
+ ns tied inside\n- a table edge or doorway to hang it from\n\nhttps://tim
+ jfarrell.com/stem-lab/pendulum.html
+URL:https://timjfarrell.com/stem-lab/pendulum.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-symmetry@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261214T173000
+DTEND:20261214T174500
+SUMMARY:Lab: Paint Butterflies
+DESCRIPTION:"I'm going to paint only half a butterfly\, and the paper wil
+ l paint the other half for me."\n\nGrab:\n- paper\n- washable paint\n- a
+  small mirror (optional)\n\nhttps://timjfarrell.com/stem-lab/symmetry.ht
+ ml
+URL:https://timjfarrell.com/stem-lab/symmetry.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-pulleys@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261217T173000
+DTEND:20261217T174000
+SUMMARY:Lab: Broomstick Superpower
+DESCRIPTION:"Can you pull two grown-ups across the room all by yourself? 
+ Let's find out."\n\nGrab:\n- two broom handles or mop handles\n- a rope 
+ about 4 m long\n- a second grown-up (or tie one broom to a heavy table l
+ eg)\n\nhttps://timjfarrell.com/stem-lab/pulleys.html
+URL:https://timjfarrell.com/stem-lab/pulleys.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-rainbows@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261221T173000
+DTEND:20261221T174000
+SUMMARY:Lab: Rainbow Maker
+DESCRIPTION:"White light has a secret. There's a rainbow hiding inside it
+ ."\n\nGrab:\n- a clear glass of water\n- a flashlight or a sunny window\
+ n- white paper\n- an old CD if you have one\n\nhttps://timjfarrell.com/s
+ tem-lab/rainbows.html
+URL:https://timjfarrell.com/stem-lab/rainbows.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-balance-point@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261228T173000
+DTEND:20261228T174000
+SUMMARY:Lab: Balancing Act
+DESCRIPTION:"Can you balance a ruler on one finger? What if I make one en
+ d heavy?"\n\nGrab:\n- a ruler or paint stirrer\n- a lump of play-dough\n
+ - a pencil or marker\n\nhttps://timjfarrell.com/stem-lab/balance-point.h
+ tml
+URL:https://timjfarrell.com/stem-lab/balance-point.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-estimation@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270104T173000
+DTEND:20270104T174000
+SUMMARY:Lab: Guess the Jar
+DESCRIPTION:"How many blocks are in this jar? Don't count. Guess!"\n\nGra
+ b:\n- a clear jar or bowl\n- 15 to 30 small things: blocks\, pom-poms\, 
+ grapes\n\nhttps://timjfarrell.com/stem-lab/estimation.html
+URL:https://timjfarrell.com/stem-lab/estimation.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-static@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270107T173000
+DTEND:20270107T174000
+SUMMARY:Lab: Balloon Magic
+DESCRIPTION:"I'm going to make your hair stand up without touching it."\n
+ \nGrab:\n- a balloon\n- their hair or a wool sweater\n- tiny bits of tor
+ n paper\n- a kitchen faucet\n\nhttps://timjfarrell.com/stem-lab/static.h
+ tml
+URL:https://timjfarrell.com/stem-lab/static.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-pepper-soap@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270111T173000
+DTEND:20270111T173500
+SUMMARY:Lab: Scaredy Pepper
+DESCRIPTION:"These pepper bits are scared of soap. Watch what happens whe
+ n soap comes near."\n\nGrab:\n- a plate with a little water\n- ground pe
+ pper\n- dish soap\n- a cotton swab or a fingertip\n\nhttps://timjfarrell
+ .com/stem-lab/pepper-soap.html
+URL:https://timjfarrell.com/stem-lab/pepper-soap.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-paper-bridge@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270114T173000
+DTEND:20270114T174500
+SUMMARY:Lab: Paper Bridge
+DESCRIPTION:"Can one sheet of paper hold up a whole pile of coins?"\n\nGr
+ ab:\n- two stacks of books the same height\n- sheets of paper\n- coins\,
+  blocks or toy cars as weights\n\nhttps://timjfarrell.com/stem-lab/paper
+ -bridge.html
+URL:https://timjfarrell.com/stem-lab/paper-bridge.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-ice-race@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270118T173000
+DTEND:20270118T174500
+SUMMARY:Lab: Ice Cube Race
+DESCRIPTION:"We're having a race. The racers are ice cubes\, and the winn
+ er is whoever melts first."\n\nGrab:\n- 4 ice cubes\n- 4 small plates\n-
+  salt\n- a sock or mitten\n- a sunny window or warm spot\n\nhttps://timj
+ farrell.com/stem-lab/ice-race.html
+URL:https://timjfarrell.com/stem-lab/ice-race.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-kit-2026-11@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261107T100000
+DTEND:20261107T104500
+SUMMARY:Lab: Kit Day
+DESCRIPTION:Monthly kit. Order by Wed Oct 28.\n\nhttps://timjfarrell.com/
+ stem-lab/kits.html
+URL:https://timjfarrell.com/stem-lab/kits.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-kit-2026-12@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20261205T100000
+DTEND:20261205T104500
+SUMMARY:Lab: Kit Day
+DESCRIPTION:Monthly kit. Order by Wed Nov 25.\n\nhttps://timjfarrell.com/
+ stem-lab/kits.html
+URL:https://timjfarrell.com/stem-lab/kits.html
+END:VEVENT
+BEGIN:VEVENT
+UID:stem-lab-kit-2027-01@tradlab
+DTSTAMP:20261015T212238Z
+DTSTART:20270102T100000
+DTEND:20270102T104500
+SUMMARY:Lab: Kit Day
+DESCRIPTION:Monthly kit. Order by Wed Dec 23.\n\nhttps://timjfarrell.com/
+ stem-lab/kits.html
+URL:https://timjfarrell.com/stem-lab/kits.html
+END:VEVENT
+END:VCALENDAR
